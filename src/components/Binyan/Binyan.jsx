@@ -1,22 +1,31 @@
-// src/ProtectedData.js
+// src/Binyan.js
 import React, { useState, useEffect } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useIdToken } from 'react-firebase-hooks/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 
-const ProtectedData = ({ auth }) => {
-  const [user] = useAuthState(auth);
+const Binyan = ({ auth }) => {
+  const [user, setUser] = useState(null);
   const [data, setData] = useState('');
-  const [idToken, loading, error] = useIdToken(user);
 
   useEffect(() => {
-    if (idToken) {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    // Clean up the subscription when the component unmounts
+    return () => unsubscribe();
+  }, [auth]);
+
+  useEffect(() => {
+    if (user) {
+      // Fetch the protected data when the user is available
       fetchData();
     }
-  }, [idToken]);
+  }, [user]);
 
   const fetchData = async () => {
     try {
-      const response = await fetch('/api/binyan', {
+      const idToken = await user.getIdToken();
+      const response = await fetch('https://us-central1-va-ad-bayit.cloudfunctions.net/api/binyan', {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -29,20 +38,16 @@ const ProtectedData = ({ auth }) => {
     }
   };
 
-  if (loading) {
+  if (!user) {
     return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error.message}</p>;
   }
 
   return (
     <div>
-      <h2>Protected Data</h2>
+      <h2>Binyan</h2>
       <p>{data}</p>
     </div>
   );
 };
 
-export default ProtectedData;
+export default Binyan;
