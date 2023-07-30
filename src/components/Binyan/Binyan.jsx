@@ -45,7 +45,7 @@ const Binyan = ({ auth }) => {
   return (
     <div>
       <h2>Binyan</h2>
-      <p>{data}</p>
+      <p>{JSON.stringify(data)}</p>
     </div>
   );
 };
