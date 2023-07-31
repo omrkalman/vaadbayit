@@ -1,10 +1,12 @@
 // functions/index.js
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const logger = require("firebase-functions/logger");
 const express = require('express');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -37,18 +39,21 @@ app.get('/binyan', validateAccessToken, async (req, res) => {
   const userId = req.user.uid; // Get the user's UID from the decoded token
 
   try {
-    // Implement your custom access control logic here
-    // For example, check if the user has permission to access the protected document
-    // const userDoc = await firestore.collection('binyan').doc(userId).get();
-    // if (!userDoc.exists) {
-    //   return res.status(403).json({ error: 'User not authorized to access the protected data.' });
-    // }
 
-    // Return the protected data to the user
-    return res.json({ data: 'This is the protected data.' });
+    const binyanRef = firestore.collection('binyanim');
+    const query = binyanRef.where('admin_id', '==', userId);
+    const querySnapshot = await query.get();
+
+    if (querySnapshot.empty) {
+      // Document not found
+      return res.status(404).json({ msg: 'No binyanim were found for this user' });
+    }
+    
+    return res.json({ binyanim: querySnapshot.docs });
+
   } catch (error) {
-    console.error('Error accessing Firestore:', error);
-    return res.status(500).json({ error: 'Error accessing Firestore.' });
+    logger.error('Error accessing Firestore:', error);
+    return res.status(500).json({ msg: 'Error accessing Firestore.' });
   }
 });
 
