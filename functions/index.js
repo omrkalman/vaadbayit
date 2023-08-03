@@ -49,7 +49,23 @@ app.get('/binyan', validateAccessToken, async (req, res) => {
       return res.status(404).json({ msg: 'No binyanim were found for this user' });
     }
     
-    return res.json({ binyanim: querySnapshot.docs });
+    const binyanim = [];
+    for (const doc of querySnapshot.docs) {
+      const data = doc.data();
+      const apartments = [];
+      for (const apartmentRef of data.apartments) {
+        const apartmentDoc = await apartmentRef.get();
+        apartments.push(apartmentDoc.data());
+      }
+
+      binyanim.push({
+        name: data.name || '',
+        admin_id: data.admin_id || '',
+        apartments: apartments,
+      });
+    }
+
+    return res.json({ binyanim });
 
   } catch (error) {
     logger.error('Error accessing Firestore:', error);

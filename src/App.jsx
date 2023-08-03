@@ -1,8 +1,8 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import './App.css';
+import styles from './App.module.css';
 import SignIn from './components/SignIn/SignIn';
 import SignOut from './components/SignOut/SignOut';
-import Binyan from './components/Binyan/Binyan';
+import Binyanim from './components/Binyanim/Binyanim';
 
 function App({ auth }) {
   const [user] = useAuthState(auth);
@@ -12,7 +12,7 @@ function App({ auth }) {
       {user ? <>
         <SignOut auth={auth} />
         {/* <pre>{JSON.stringify(user)}</pre> */}
-        <Binyan auth={auth}></Binyan>
+        <Binyanim auth={auth}></Binyanim>
       </> : <SignIn auth={auth} />}
     </>
   );
