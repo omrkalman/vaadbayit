@@ -1,6 +1,7 @@
 import { signOut } from "firebase/auth";
+import { auth } from "../../config/firebaseConfig";
 
-function SignOut({ auth }) {
+function SignOut() {
     return (
         <button onClick={() => signOut(auth)}>Sign out</button>
     )

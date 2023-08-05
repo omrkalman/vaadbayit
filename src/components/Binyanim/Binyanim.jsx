@@ -1,52 +1,36 @@
-import { useState, useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
+import styles from './Binyanim.module.css';
 import Binyan from '../Binyan/Binyan';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { collection, query, where } from 'firebase/firestore';
+import { auth, db } from '../../config/firebaseConfig';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useEffect } from 'react';
 
-const Binyanim = ({ auth }) => {
-  const [user, setUser] = useState(null);
-  const [binyanim, setBinyanim] = useState([]);
+const Binyanim = () => {
+  
+  const [user] = useAuthState(auth);
+  const binyanimRef = collection(db, 'binyanim');
+  const queryRef = query(binyanimRef, where('admin_id', '==', user.uid));
+  const [binyanim, loading, error] = useCollectionData(queryRef, { idField: 'docId' });
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
+    console.log(binyanim)
+  }, [binyanim])
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    // Clean up the subscription when the component unmounts
-    return () => unsubscribe();
-  }, [auth]);
-
-  useEffect(() => {
-    if (user) {
-      // Fetch the protected data when the user is available
-      fetchBinyanim();
-    }
-  }, [user]);
-
-  const fetchBinyanim = async () => {
-    try {
-      const idToken = await user.getIdToken();
-      const response = await fetch('https://us-central1-va-ad-bayit.cloudfunctions.net/api/binyan', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      setBinyanim(data.binyanim);
-    } catch (error) {
-      console.error('Error fetching binyanim:', error);
-    }
-  };
-
-  if (!user) {
-    return <p>Loading...</p>;
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
-    <div>
-      <h2>Binyanim</h2>
-      {binyanim.map(b => <Binyan key={Math.trunc(Math.random()*10e6)} binyan={b} />)}
+    <div className={styles.main}>
+      <h2 style={{ textAlign: 'center' }}>Binyanim</h2>
+      <section className={styles.neighborhood}>
+        {binyanim.map(b => <Binyan key={Math.trunc(Math.random()*10e6)} binyan={b} />)}
+      </section>
     </div>
   );
 };
