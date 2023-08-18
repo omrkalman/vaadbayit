@@ -1,21 +1,16 @@
 import styles from './Binyanim.module.css';
 import Binyan from '../Binyan/Binyan';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
 import { collection, query, where } from 'firebase/firestore';
 import { auth, db } from '../../config/firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useEffect } from 'react';
 
 const Binyanim = () => {
   
   const [user] = useAuthState(auth);
   const binyanimRef = collection(db, 'binyanim');
   const queryRef = query(binyanimRef, where('admin_id', '==', user.uid));
-  const [binyanim, loading, error] = useCollectionData(queryRef, { idField: 'docId' });
-
-  useEffect(() => {
-    console.log(binyanim)
-  }, [binyanim])
+  const [querySnapshot, loading, error] = useCollection(queryRef);
   
   if (loading) {
     return <div>Loading...</div>;
@@ -24,6 +19,17 @@ const Binyanim = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+  // Check if querySnapshot is available
+  if (!querySnapshot) {
+    return null;
+  }
+
+  // Access the documents with IDs
+  const binyanim = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 
   return (
     <div className={styles.main}>

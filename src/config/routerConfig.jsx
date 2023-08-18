@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import Binyanim from "../components/Binyanim/Binyanim";
 import { RouterProvider } from 'react-router-dom';
+import BinyanPage from "../components/BinyanPage/BinyanPage";
 
 const router = createBrowserRouter([
     {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
     {
         path: '/binyanim',
         element: <Binyanim />
+    },
+    {
+        path: '/binyan/:id',
+        element: <BinyanPage />
     },
     {
         path: '*',
