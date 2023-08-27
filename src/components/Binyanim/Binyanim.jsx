@@ -39,6 +39,11 @@ const Binyanim = () => {
     dialogRef.current.showModal();
   }
 
+  const dialogCloseHandler = (ev) => {
+    ev.preventDefault();
+    dialogRef.current.close();
+  }
+
   const dialogFormSubmitHandler = async (event) => {
     try {
       await addDoc(collection(db, 'binyanim'), {
@@ -68,7 +73,10 @@ const Binyanim = () => {
         <form method="dialog" onSubmit={dialogFormSubmitHandler}>
           <label className={styles.newLine} htmlFor={getFilename(import.meta.url) + 60}>Name of new binyan: </label>
           <input className={styles.newLine} type="text" id={getFilename(import.meta.url) + 60} name="name" />
-          <button className={styles.newLine}>OK</button>
+          <menu className={styles.buttons}>
+            <button>OK</button>
+            <button onClick={dialogCloseHandler}>Cancel</button>
+          </menu>
         </form>
       </dialog>
     </>
