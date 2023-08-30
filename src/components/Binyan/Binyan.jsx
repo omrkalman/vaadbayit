@@ -6,10 +6,8 @@ function Binyan({ binyan }) {
 
     return (
         <div className={styles.binyan} onClick={() => navigate(`/binyan/${binyan.id}`)}>
-            {/* <h3 style={{ textAlign: 'center' }}>{binyan.name}</h3> */}
-            {Object.entries(binyan).map(([key, value]) => (
-                <p key={Math.trunc(Math.random()*10e6)}>{key}: {JSON.stringify(value)}</p>
-            ))}
+            <h3 className={styles.name}>{binyan.name}</h3>
+            <img className={styles.img} src="/building_4dark.png" alt="Apartment building" />
         </div>
     )
 }

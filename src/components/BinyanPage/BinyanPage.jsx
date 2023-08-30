@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, doc } from 'firebase/firestore';
 import { db } from "../../config/firebaseConfig";
-
+import Apartment from "../Apartment/Apartment";
+import styles from './BinyanPage.module.css'
 
 function BinyanPage() {
     const { id } = useParams();
@@ -29,7 +30,11 @@ function BinyanPage() {
         ...doc.data(),
     }));
     
-    return <div>{JSON.stringify(apartments)}</div>
+    return (
+        <div className={styles.container}>
+            {apartments.map(a => <Apartment key={Math.trunc(Math.random()*10e6)} apartment={a} />)}
+        </div>
+    )
 }
 
 export default BinyanPage;

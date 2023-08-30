@@ -1,16 +1,26 @@
-.binyan {
+.apt {
     cursor: pointer;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
 }
 
-.img {
-    max-width: 100%;
-}
-
-.name {
+.nickname {
     text-align: center;
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.door {
+    position: relative;
+}
+
+.aptNum {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+}
+
+.img {
+    max-width: 100%;
 }

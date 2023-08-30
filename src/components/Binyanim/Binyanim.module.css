@@ -1,14 +1,16 @@
 .neighborhood {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(30vw, 1fr) );;
 }
 
 .newBinyan {
     display: flex;
-    height: 100%;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
+}
+.newBinyan > span {
     font-size: 5em;
 }
 

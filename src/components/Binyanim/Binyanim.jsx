@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import styles from './Binyanim.module.css';
-import childStyles from '../Binyan/Binyan.module.css';
 import Binyan from '../Binyan/Binyan';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { addDoc, collection, query, where } from 'firebase/firestore';
@@ -63,8 +62,8 @@ const Binyanim = () => {
         <h2 style={{ textAlign: 'center' }}>Binyanim</h2>
         <section className={styles.neighborhood}>
           {binyanim.map(b => <Binyan key={Math.trunc(Math.random()*10e6)} binyan={b} />)}
-          <div key={Math.trunc(Math.random()*10e6)} className={childStyles.binyan} onClick={newBinyanHandler}>
-            <span className={styles.newBinyan}>+</span>
+          <div key={Math.trunc(Math.random()*10e6)} className={styles.newBinyan} onClick={newBinyanHandler}>
+            <span>+</span>
           </div>
         </section>
       </div>
