@@ -33,6 +33,9 @@ function BinyanPage() {
     return (
         <div className={styles.container}>
             {apartments.map(a => <Apartment key={Math.trunc(Math.random()*10e6)} apartment={a} />)}
+            <div key={Math.trunc(Math.random()*10e6)} className={styles.newApt}>
+                <span>+</span>
+            </div>
         </div>
     )
 }
