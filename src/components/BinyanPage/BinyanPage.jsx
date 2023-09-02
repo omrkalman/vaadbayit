@@ -40,36 +40,10 @@ function BinyanPage() {
 
     const dialogFormSubmitHandler = async (event) => {
         try {
-            // Data for the new apartment document
-            const newApartmentData = {
+            await setDoc(doc(apartmentsCollectionRef), {
                 nickname: event.target.nickname.value,
                 number: event.target.number.value,
-            };
-            // Reference to the "binyanim" collection
-            const binyanimCollectionRef = collection(db, 'binyanim');
-            // Query the "apartments" subcollection where `admin_id` matches the user's UID
-            const q = query(
-                binyanimCollectionRef,
-                where('admin_id', '==', uid)
-            );
-            console.log(55)
-            const querySnapshot = await getDocs(q);
-            console.log(57)
-            // Check if there are matching documents
-            if (querySnapshot.docs.length > 0) {
-                // Assuming there's only one matching document, you can add the new apartment to it
-                console.log(61)
-                const binyanimDocRef = doc(binyanimCollectionRef, querySnapshot.docs[0].id);
-                console.log(63)
-                const apartmentsCollectionRef = collection(binyanimDocRef, 'apartments');
-                console.log(65)
-                // Add the new apartment document to the "apartments" subcollection
-                await setDoc(doc(apartmentsCollectionRef), newApartmentData);
-                console.log(68)
-            } else {
-                // Handle the case where no matching "apartments" subcollection document was found
-                console.log('No matching document found');
-            }
+            });
         } catch (error) {
             console.error('Error adding document:', error);
         } finally {
