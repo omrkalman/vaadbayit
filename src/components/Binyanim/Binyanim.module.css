@@ -13,13 +13,3 @@
 .newBinyan > span {
     font-size: 5em;
 }
-
-.newLine {
-    display: block;
-}
-
-.buttons {
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}

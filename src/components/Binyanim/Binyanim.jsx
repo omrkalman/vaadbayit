@@ -1,17 +1,16 @@
 import { useRef } from 'react';
 import styles from './Binyanim.module.css';
 import Binyan from '../Binyan/Binyan';
+import NewBinAptDialog from '../NewBinAptDialog/NewBinAptDialog';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { addDoc, collection, query, where } from 'firebase/firestore';
 import { auth, db } from '../../config/firebaseConfig';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import getFilename from '../../utility/getFilename';
 
 const Binyanim = () => {
   
-  const [user] = useAuthState(auth);
+  const uid = auth.currentUser.uid;
   const binyanimRef = collection(db, 'binyanim');
-  const queryRef = query(binyanimRef, where('admin_id', '==', user.uid));
+  const queryRef = query(binyanimRef, where('admin_id', '==', uid));
   const [querySnapshot, loading, error] = useCollection(queryRef);
   const dialogRef = useRef();
   
@@ -38,18 +37,13 @@ const Binyanim = () => {
     dialogRef.current.showModal();
   }
 
-  const dialogCloseHandler = (ev) => {
-    ev.preventDefault();
-    dialogRef.current.close();
-  }
-
   const dialogFormSubmitHandler = async (event) => {
     try {
-      await addDoc(collection(db, 'binyanim'), {
+      await addDoc(binyanimRef, {
         'name': event.target.name.value,
-        'admin_id': user.uid 
+        'admin_id': uid
       })
-    } catch(error) {
+    } catch (error) {
       console.error('Error adding document:', error);
     } finally {
       event.target.name.value = '';
@@ -67,17 +61,10 @@ const Binyanim = () => {
           </div>
         </section>
       </div>
-      <dialog ref={dialogRef}>
-        <p>New Binyan</p>
-        <form method="dialog" onSubmit={dialogFormSubmitHandler}>
-          <label className={styles.newLine} htmlFor={getFilename(import.meta.url) + 60}>Name of new binyan: </label>
-          <input className={styles.newLine} type="text" id={getFilename(import.meta.url) + 60} name="name" />
-          <menu className={styles.buttons}>
-            <button>OK</button>
-            <button onClick={dialogCloseHandler}>Cancel</button>
-          </menu>
-        </form>
-      </dialog>
+      <NewBinAptDialog onSubmit={dialogFormSubmitHandler} ref={dialogRef}>
+        <label style={{display: 'block'}} htmlFor="PAjgCNgsPTmnVR">Name:</label>
+        <input style={{display: 'block'}} id="PAjgCNgsPTmnVR" type="text" name="name" />
+      </NewBinAptDialog>
     </>
   );
 };
