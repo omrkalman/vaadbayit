@@ -1,0 +1,21 @@
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.container > * {
+    width: 100%;
+}
+
+.container * {
+    font-size: 1.5rem;
+}
+
+.error {
+    color: red;
+}
+
+.ok {
+    color: green;
+}

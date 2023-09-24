@@ -61,7 +61,7 @@ const Binyanim = () => {
           </div>
         </section>
       </div>
-      <NewBinAptDialog onSubmit={dialogFormSubmitHandler} ref={dialogRef}>
+      <NewBinAptDialog onSubmit={dialogFormSubmitHandler} ref={dialogRef} heading='Building'>
         <label style={{display: 'block'}} htmlFor="PAjgCNgsPTmnVR">Name:</label>
         <input style={{display: 'block'}} id="PAjgCNgsPTmnVR" type="text" name="name" />
       </NewBinAptDialog>

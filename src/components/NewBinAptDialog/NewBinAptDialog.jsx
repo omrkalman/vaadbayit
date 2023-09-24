@@ -1,8 +1,8 @@
-import { Children, forwardRef, useState, useEffect } from 'react';
+import { forwardRef, useState, useEffect } from 'react';
 import styles from './styles.module.css';
 
 
-const NewBinAptDialog = forwardRef(({ onSubmit, children }, dialogRef) => {
+const NewBinAptDialog = forwardRef(({ onSubmit, heading, children }, dialogRef) => {
 
     const [isOKButtonDisabled, setIsOKButtonDisabled] = useState(true);
 
@@ -42,7 +42,7 @@ const NewBinAptDialog = forwardRef(({ onSubmit, children }, dialogRef) => {
 
     return (
         <dialog ref={dialogRef}>
-            <p>New Binyan</p>
+            <p>New {heading}</p>
             <form method="dialog" onSubmit={onSubmit}>
                 {children}
                 <menu className={styles.buttons}>
