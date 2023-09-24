@@ -50,7 +50,7 @@ export default function({ apartmentDocs }) {
         return <div>Error: {expsError?.message}</div>;
     }
 
-    if (expsLoading || !(paymentSum && expenditureSum)) {
+    if (expsLoading || paymentSum==null || expenditureSum==null) {
         return <h1 className={styles.balance}><Loading /></h1>
     }
 

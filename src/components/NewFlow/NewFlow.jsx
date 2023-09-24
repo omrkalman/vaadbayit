@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { db } from '../../config/firebaseConfig';
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
@@ -15,6 +15,7 @@ export default function({ apartmentDocs, apartments }) {
     const [flowType, setFlowType] = useState(0);
     const [reasons, setReasons] = useState([]);
     const [result, setResult] = useState({ text: '', status: ''})
+    const [amountInput, setAmountInput] = useState(0);
     
     const handleForm = async(e) => {
         e.preventDefault();
@@ -67,7 +68,7 @@ export default function({ apartmentDocs, apartments }) {
                 <option value={1}>Out</option>
             </select>
             <label htmlFor="pgDC87SB34mk">Amount</label>
-            <input type="number" name="amount" id="pgDC87SB34mk" />
+            <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" name="amount" id="pgDC87SB34mk" />
             {flowType == 0 && <>
                 <label htmlFor="poVB65022GH">Resident:</label>
                 <select name="resident" id="poVB65022GH">
@@ -82,7 +83,7 @@ export default function({ apartmentDocs, apartments }) {
             </select>}
             {!!reasonsLoading && <Loading />}
             {!!reasonsError && <span>{reasonsError.message}</span>}
-            <button>Save</button>
+            <button disabled={amountInput < 0.01}>Save</button>
             {result.status == 'flight' && <Loading />}
             {!!result.text && <span className={styles[result.status]}>{result.text}</span>}
         </form>
