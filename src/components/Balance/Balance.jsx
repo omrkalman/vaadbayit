@@ -5,6 +5,7 @@ import { collection, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../config/firebaseConfig';
 import styles from './styles.module.css';
 import Loading from "../Loading/Loading";
+import useMoney from "../../hooks/useMoney";
 
 export default function({ apartmentDocs }) {
     const { id } = useParams();
@@ -33,18 +34,7 @@ export default function({ apartmentDocs }) {
         }
     }, [expsSnapshot])
 
-    const displayBalance = useCallback(() => {
-        const amount = paymentSum - expenditureSum;
-        let cents = (amount * 100) % 100;
-        cents = cents > 9 ? cents : '0'+cents;
-        const dollars = Math.trunc(amount);
-        const displayAmount = `${dollars}.${cents}`;
-
-        if (import.meta.env.VITE_CURRENCY_IS_AFTER) {
-            return `${displayAmount}${import.meta.env.VITE_CURRENCY}`;
-        }
-        return `${import.meta.env.VITE_CURRENCY}${displayAmount}`;
-    }, [paymentSum, expenditureSum])
+    const money = useMoney(paymentSum - expenditureSum);
     
     if (expsError) {
         return <div>Error: {expsError?.message}</div>;
@@ -54,5 +44,6 @@ export default function({ apartmentDocs }) {
         return <h1 className={styles.balance}><Loading /></h1>
     }
 
-    return <h1 className={styles.balance}>{displayBalance()}</h1>
+    // return <h1 className={styles.balance}>{displayBalance()}</h1>
+    return <h1 className={styles.balance}>{money}</h1>
 }
