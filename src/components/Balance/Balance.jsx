@@ -8,8 +8,8 @@ import Loading from "../Loading/Loading";
 
 export default function({ apartmentDocs }) {
     const { id } = useParams();
-    const [paymentSum, setPaymentSum] = useState(0);
-    const [expenditureSum, setExpenditureSum] = useState(0);
+    const [paymentSum, setPaymentSum] = useState(-1);
+    const [expenditureSum, setExpenditureSum] = useState(-1);
     
     const expsCollectionRef = collection(doc(db, 'binyanim', id), 'expenditures');
     const [expsSnapshot, expsLoading, expsError] = useCollection(expsCollectionRef);
@@ -50,7 +50,7 @@ export default function({ apartmentDocs }) {
         return <div>Error: {expsError?.message}</div>;
     }
 
-    if (expsLoading || paymentSum==null || expenditureSum==null) {
+    if (expsLoading || paymentSum==-1 || expenditureSum==-1) {
         return <h1 className={styles.balance}><Loading /></h1>
     }
 

@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import styles from './Binyanim.module.css';
 import Binyan from '../Binyan/Binyan';
-import NewBinAptDialog from '../NewBinAptDialog/NewBinAptDialog';
+import Dialog from '../Dialog/Dialog';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { addDoc, collection, query, where } from 'firebase/firestore';
 import { auth, db } from '../../config/firebaseConfig';
@@ -61,10 +61,10 @@ const Binyanim = () => {
           </div>
         </section>
       </div>
-      <NewBinAptDialog onSubmit={dialogFormSubmitHandler} ref={dialogRef} heading='Building'>
+      <Dialog onSubmit={dialogFormSubmitHandler} ref={dialogRef} heading='Building'>
         <label style={{display: 'block'}} htmlFor="PAjgCNgsPTmnVR">Name:</label>
         <input style={{display: 'block'}} id="PAjgCNgsPTmnVR" type="text" name="name" />
-      </NewBinAptDialog>
+      </Dialog>
     </>
   );
 };

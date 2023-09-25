@@ -12,6 +12,10 @@
     font-size: 1.5rem;
 }
 
+.result {
+    text-align: center;
+}
+
 .error {
     color: red;
 }

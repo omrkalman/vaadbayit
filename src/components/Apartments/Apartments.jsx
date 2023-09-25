@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { doc, setDoc } from 'firebase/firestore';
 import Apartment from "../Apartment/Apartment";
-import NewBinAptDialog from "../NewBinAptDialog/NewBinAptDialog";
+import Dialog from "../Dialog/Dialog";
 import styles from './styles.module.css'
 
 function Apartments({ apartments }) {
@@ -34,12 +34,12 @@ function Apartments({ apartments }) {
                     <span>+</span>
                 </div>
             </div>
-            <NewBinAptDialog onSubmit={dialogFormSubmitHandler} ref={dialogRef} heading='Apt.'>
+            <Dialog onSubmit={dialogFormSubmitHandler} ref={dialogRef} heading='Apt.'>
                 <label style={{display: 'block'}} htmlFor="CPjhNEpoMQ">Nickname:</label>
                 <input style={{display: 'block'}} type="text" id="CPjhNEpoMQ" name="nickname" />
                 <label style={{display: 'block'}} htmlFor="LXbfBYhgQW">Apt. number:</label>
                 <input style={{display: 'block'}} type="number" id="LXbfBYhgQW" name="number" />
-            </NewBinAptDialog>
+            </Dialog>
         </>
     )
 }

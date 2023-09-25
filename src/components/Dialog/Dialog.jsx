@@ -2,7 +2,7 @@ import { forwardRef, useState, useEffect } from 'react';
 import styles from './styles.module.css';
 
 
-const NewBinAptDialog = forwardRef(({ onSubmit, heading, children }, dialogRef) => {
+const Dialog = forwardRef(({ onSubmit, heading, children }, dialogRef) => {
 
     const [isOKButtonDisabled, setIsOKButtonDisabled] = useState(true);
 
@@ -55,4 +55,4 @@ const NewBinAptDialog = forwardRef(({ onSubmit, heading, children }, dialogRef) 
 })
 
 
-export default NewBinAptDialog;
+export default Dialog;

@@ -5,6 +5,7 @@ import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import styles from './styles.module.css'
 import Loading from '../Loading/Loading';
+import Dialog from '../Dialog/Dialog';
 
 export default function({ apartmentDocs, apartments }) {
 
@@ -16,28 +17,34 @@ export default function({ apartmentDocs, apartments }) {
     const [reasons, setReasons] = useState([]);
     const [result, setResult] = useState({ text: '', status: ''})
     const [amountInput, setAmountInput] = useState(0);
+    const [reasonInput, setReasonInput] = useState('');
+    const dialogRef = useRef();
+
+    useEffect(() => {
+        if (reasonsSnapshot) {
+            const rsns = reasonsSnapshot.docs.map(rDoc => ({            
+                id: rDoc.id,
+                ...rDoc.data()  
+            })).filter(r => r.type == flowType);
+            setReasons(rsns);
+        }
+    }, [flowType, reasonsSnapshot])
     
     const handleForm = async(e) => {
         e.preventDefault();
-        const type = e.target.type.value;
-        const amount = +e.target.amount.value;
+        setResult({ status: 'flight' });
         const residentId = e.target.resident?.value;
-        const memo = e.target.reason.value;
-        setResult({ status: 'flight' })
+        const data = {
+            amount: +amountInput,
+            memo: reasonInput,
+            date: serverTimestamp()
+        }
         try {
-            if (type == 0 /* in */) {
+            if (flowType == 0 /* in */) {
                 const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == residentId)
-                await setDoc(doc(collection(apartmentDoc.ref, 'payments')), {
-                    amount,
-                    memo,
-                    date: serverTimestamp()
-                })
+                await setDoc(doc(collection(apartmentDoc.ref, 'payments')), data)
             } else {
-                await setDoc(doc(collection(binyanRef, 'expenditures')), {
-                    amount,
-                    memo,
-                    date: serverTimestamp()
-                })
+                await setDoc(doc(collection(binyanRef, 'expenditures')), data)
             }
             setResult({ text: 'Saved', status: 'ok' })
         } catch (error) {
@@ -49,43 +56,63 @@ export default function({ apartmentDocs, apartments }) {
         e.stopPropagation();   
         setFlowType(prev => 1 - prev);
     }
-    
-    useEffect(() => {
-        if (reasonsSnapshot) {
-            const rsns = reasonsSnapshot.docs.map(rDoc => ({            
-                id: rDoc.id,
-                ...rDoc.data()  
-            })).filter(r => r.type == flowType);
-            setReasons(rsns);
+
+    const handleReasonChange = (e) => {
+        const reasonText = e.target.value;
+        if (reasonText == '~^^NeW^^~') dialogRef.current.showModal();
+        else setReasonInput(reasonText);
+    }
+
+    const dialogFormSubmitHandler = async (event) => {
+        try {
+            setResult({ status: 'flight' });
+            await setDoc(doc(reasonsRef), {
+                text: event.target.text.value,
+                type: flowType,
+            });
+            setReasonInput(event.target.text.value);
+            setResult({ status: '' });
+        } catch (error) {
+            console.error('Error adding document:', error);
+            setResult({ status: 'error', text: error.message })
+        } finally {
+            event.target.text.value = '';
         }
-    }, [flowType, reasonsSnapshot])
+    }
     
     return (
-        <form className={styles.container} onSubmit={handleForm}>
-            <label htmlFor="jgPX98BGdf34">Type:</label>
-            <select value={flowType} name="type" id="jgPX98BGdf34" onChange={handleFlowTypeChange}>
-                <option value={0}>In</option>
-                <option value={1}>Out</option>
-            </select>
-            <label htmlFor="pgDC87SB34mk">Amount</label>
-            <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" name="amount" id="pgDC87SB34mk" />
-            {flowType == 0 && <>
-                <label htmlFor="poVB65022GH">Resident:</label>
-                <select name="resident" id="poVB65022GH">
-                    {apartments.map(apt => (
-                        <option value={apt.id}>{apt.nickname}</option>
-                    ))}
+        <>
+            <form className={styles.container} onSubmit={handleForm}>
+                <label>Type:</label>
+                <select value={flowType} name="type" onChange={handleFlowTypeChange}>
+                    <option value={0}>In</option>
+                    <option value={1}>Out</option>
                 </select>
-            </>}
-            <label htmlFor="plBN47jhJH">Reason:</label>
-            {!!reasonsSnapshot && <select name="reason" id="plBN47jhJH">
-                {reasons.map(r => <option value={r.text}>{r.text}</option>)}
-            </select>}
-            {!!reasonsLoading && <Loading />}
-            {!!reasonsError && <span>{reasonsError.message}</span>}
-            <button disabled={amountInput < 0.01}>Save</button>
-            {result.status == 'flight' && <Loading />}
-            {!!result.text && <span className={styles[result.status]}>{result.text}</span>}
-        </form>
+                <label>Amount</label>
+                <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" name="amount" />
+                {flowType == 0 && <>
+                    <label>Resident:</label>
+                    <select name="resident">
+                        {apartments.map(apt => (
+                            <option key={Math.trunc(Math.random()*10e6)} value={apt.id}>{apt.nickname}</option>
+                        ))}
+                    </select>
+                </>}
+                <label>Reason:</label>
+                {!!reasonsSnapshot && <select name="reason" value={reasonInput} onChange={handleReasonChange}>
+                    <option disabled value="">Select a reason </option>
+                    <option value="~^^NeW^^~">New reason</option>
+                    {reasons.map(r => <option key={Math.trunc(Math.random()*10e6)} value={r.text}>{r.text}</option>)}
+                </select>}
+                {!!reasonsLoading && <Loading />}
+                {!!reasonsError && <span className={styles.result+' '+styles.error}>{reasonsError.message}</span>}
+                <button disabled={!(reasonInput && amountInput >= 0.01)}>Save</button>
+                {result.status == 'flight' && <Loading />}
+                {!!result.text && <span className={styles.result+' '+styles[result.status]}>{result.text}</span>}
+            </form>
+            <Dialog onSubmit={dialogFormSubmitHandler} ref={dialogRef} heading='Reason'>
+                <input style={{display: 'block'}} type="text" name="text" />
+            </Dialog>
+        </>
     )
 }
