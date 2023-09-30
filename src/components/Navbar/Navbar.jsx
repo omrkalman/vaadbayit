@@ -2,7 +2,7 @@ import SignOut from '../SignOut/SignOut';
 import SignIn from '../SignIn/SignIn';
 import styles from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
-import { ROUTES } from '../../config/routerConfig';
+import ROUTES from '../../config/routes';
 
 function Navbar({ user }) {
     

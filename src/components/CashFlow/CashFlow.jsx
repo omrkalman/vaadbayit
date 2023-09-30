@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Balance from '../Balance/Balance';
 import NewFlow from '../NewFlow/NewFlow';
 import styles from './styles.module.css'
+import FlowCalendar from '../FlowCalendar/FlowCalendar';
 
 export default function({ apartmentDocs, apartments }) {
     
@@ -27,6 +28,7 @@ export default function({ apartmentDocs, apartments }) {
                 ))}
             </select>
             {feature == 0 && <Balance apartmentDocs={apartmentDocs} />}
+            {feature == 1 && <FlowCalendar />}
             {feature == 2 && <NewFlow apartmentDocs={apartmentDocs} apartments={apartments} />}
         </div>
     )    

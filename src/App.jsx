@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar/Navbar";
 
 
 function App() {
+  // return <span>App works</span>
+  
   const [user] = useAuthState(auth);
   
   return (

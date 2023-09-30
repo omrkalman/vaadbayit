@@ -4,14 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import BinyanPage from "../components/BinyanPage/BinyanPage";
 import ApartmentPage from "../components/ApartmentPage/ApartmentPage";
 import App from "../App";
-
-export const ROUTES = {
-    Binyanim: '/binyanim',
-    BinyanPage: '/binyan/:id',
-    ApartmentPage: '/binyan/:binyanId/apartment/:apartmentId',
-    NotFound: '/404'
-}
-
+import ROUTES from "./routes";
 
 const router = createBrowserRouter([
     {
