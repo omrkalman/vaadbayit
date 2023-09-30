@@ -1,0 +1,18 @@
+.modal {
+    position: fixed;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    background-color: var(--background-color);
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
+}
+
+.event {
+    border: none;
+}
+
+.expenditure {
+    background-color: brown;
+}
