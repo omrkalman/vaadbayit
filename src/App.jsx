@@ -1,16 +1,16 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import styles from './App.module.css';
-import Navbar from './components/Navbar/Navbar';
+import { Outlet } from "react-router-dom";
 import { auth } from './config/firebaseConfig';
-import MyRouter from './config/routerConfig.jsx';
+import Navbar from "./components/Navbar/Navbar";
+
 
 function App() {
   const [user] = useAuthState(auth);
   
   return (
     <>
-      <Navbar />
-      {user ? <MyRouter /> : null}
+      <Navbar user={user} />
+      {!!user && <Outlet />}
     </>
   );
 }
