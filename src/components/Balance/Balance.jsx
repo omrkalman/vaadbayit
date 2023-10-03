@@ -1,19 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, doc, getDocs } from 'firebase/firestore';
-import { db } from '../../config/firebaseConfig';
+import { useEffect, useState } from "react";
+import { collection, getDocs } from 'firebase/firestore';
 import styles from './styles.module.css';
 import Loading from "../Loading/Loading";
 import useMoney from "../../hooks/useMoney";
 
-export default function({ apartmentDocs }) {
-    const { id } = useParams();
+export default function({ apartmentDocs, expDocs }) {
     const [paymentSum, setPaymentSum] = useState(-1);
     const [expenditureSum, setExpenditureSum] = useState(-1);
-    
-    const expsCollectionRef = collection(doc(db, 'binyanim', id), 'expenditures');
-    const [expsSnapshot, expsLoading, expsError] = useCollection(expsCollectionRef);
 
     useEffect(() => {
         if (apartmentDocs) getData();
@@ -29,18 +22,14 @@ export default function({ apartmentDocs }) {
     }, [apartmentDocs])
 
     useEffect(() => {
-        if (expsSnapshot) {
-            setExpenditureSum(expsSnapshot.docs.reduce((sum, doc) => sum + doc.data().amount, 0));
+        if (expDocs) {
+            setExpenditureSum(expDocs.reduce((sum, doc) => sum + doc.data().amount, 0));
         }
-    }, [expsSnapshot])
+    }, [expDocs])
 
     const money = useMoney(paymentSum - expenditureSum);
-    
-    if (expsError) {
-        return <div>Error: {expsError?.message}</div>;
-    }
 
-    if (expsLoading || paymentSum==-1 || expenditureSum==-1) {
+    if (paymentSum==-1 || expenditureSum==-1) {
         return <h1 className={styles.balance}><Loading /></h1>
     }
 

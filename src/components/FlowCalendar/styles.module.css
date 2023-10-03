@@ -9,10 +9,12 @@
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
 }
 
-.event {
-    border: none;
+.expenditure {
+    border-color: brown;
+    background-color: brown;
 }
 
-.expenditure {
-    background-color: brown;
+.payment {
+    border-color: green;
+    background-color: green;
 }

@@ -11,18 +11,21 @@ function BinyanPage() {
     const { id } = useParams();
     const apartmentsCollectionRef = collection(doc(db, 'binyanim', id), 'apartments');
     const [querySnapshot, loading, error] = useCollection(apartmentsCollectionRef);
+    const expsCollectionRef = collection(doc(db, 'binyanim', id), 'expenditures');
+    const [expsSnapshot, expsLoading, expsError] = useCollection(expsCollectionRef);
+
 
     
-    if (loading) {
+    if (loading || expsLoading) {
         return <div>Loading...</div>;
     }
     
-    if (error) {
-        return <div>Error: {error.message}</div>;
+    if (error || expsError) {
+        return <div>Error: {error?.message || expsError.message}</div>;
     }
     
     // Check if querySnapshot is available
-    if (!querySnapshot) {
+    if (!(querySnapshot && expsSnapshot)) {
         return null;
     }
     
@@ -42,7 +45,7 @@ function BinyanPage() {
             <section className={styles.section}>
                 <h1>Cash Flow</h1>
                 <hr />
-                <CashFlow apartmentDocs={querySnapshot.docs} apartments={apartments} />
+                <CashFlow apartmentDocs={querySnapshot.docs} expDocs={expsSnapshot.docs} apartments={apartments} />
             </section>
 
         </>
