@@ -22,8 +22,7 @@ export default function CashFlow ({ apartmentDocs, expDocs, apartments }) {
     const features = [
         [0, 'balance'],
         [1, 'flow history'],
-        [2, 'new flow'],
-        [3, 'piechart']
+        [2, 'new flow']
     ]
     
     const handleFeatureChange = (e) => {
