@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { db } from '../../config/firebaseConfig';
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styles from './styles.module.css'
 import Loading from '../Loading/Loading';
 import Dialog from '../Dialog/Dialog';
@@ -19,6 +19,14 @@ export default function({ apartmentDocs, apartments }) {
     const [amountInput, setAmountInput] = useState(0);
     const [reasonInput, setReasonInput] = useState('');
     const dialogRef = useRef();
+    // const [searchParams, setSearchParams] = useSearchParams();
+    // const [resident, setResident] = useState(0);
+    
+    // useEffect(() => {
+    //     const ftr = searchParams.get('feature');
+    //     if (ftr) setFeature(ftr)
+    // }, [searchParams])
+
 
     useEffect(() => {
         if (reasonsSnapshot) {

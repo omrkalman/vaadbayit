@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Balance from '../Balance/Balance';
 import NewFlow from '../NewFlow/NewFlow';
 import styles from './styles.module.css'
 import FlowCalendar from '../FlowCalendar/FlowCalendar';
+import { useSearchParams } from 'react-router-dom';
 
-export default function({ apartmentDocs, expDocs, apartments }) {
+export default function CashFlow ({ apartmentDocs, expDocs, apartments }) {
     
+    const [searchParams, setSearchParams] = useSearchParams();
     const [feature, setFeature] = useState(0);
+    
+    useEffect(() => {
+        const ftr = searchParams.get('feature');
+        if (ftr) setFeature(ftr)
+    }, [searchParams])
 
     const features = [
         [0, 'balance'],
@@ -16,8 +23,7 @@ export default function({ apartmentDocs, expDocs, apartments }) {
     ]
     
     const handleFeatureChange = (e) => {
-        
-        setFeature(e.target.value);
+        setSearchParams({ feature: e.target.value });
     }
     
     return (
