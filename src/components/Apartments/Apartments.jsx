@@ -4,7 +4,7 @@ import Apartment from "../Apartment/Apartment";
 import Dialog from "../Dialog/Dialog";
 import styles from './styles.module.css'
 
-function Apartments({ apartments }) {
+function Apartments({ apartments, apartmentsRef }) {
 
     const dialogRef = useRef();
     
@@ -14,7 +14,7 @@ function Apartments({ apartments }) {
 
     const dialogFormSubmitHandler = async (event) => {
         try {
-            await setDoc(doc(apartmentsCollectionRef), {
+            await setDoc(doc(apartmentsRef), {
                 nickname: event.target.nickname.value,
                 number: event.target.number.value,
             });

@@ -9,8 +9,8 @@ import styles from './BinyanPage.module.css';
 function BinyanPage() {
 
     const { id } = useParams();
-    const apartmentsCollectionRef = collection(doc(db, 'binyanim', id), 'apartments');
-    const [querySnapshot, loading, error] = useCollection(apartmentsCollectionRef);
+    const apartmentsRef = collection(doc(db, 'binyanim', id), 'apartments');
+    const [querySnapshot, loading, error] = useCollection(apartmentsRef);
     const expsCollectionRef = collection(doc(db, 'binyanim', id), 'expenditures');
     const [expsSnapshot, expsLoading, expsError] = useCollection(expsCollectionRef);
 
@@ -40,7 +40,7 @@ function BinyanPage() {
             <section className={styles.section}>
                 <h1>Apartments</h1>
                 <hr />
-                <Apartments apartments={apartments} />
+                <Apartments apartments={apartments} apartmentsRef={apartmentsRef} />
             </section>
             <section className={styles.section}>
                 <h1>Cash Flow</h1>
