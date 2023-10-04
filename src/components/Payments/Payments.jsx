@@ -26,7 +26,7 @@ export default function Payments ({ apartmentRef }) {
     })
 
     const handleNewPayment = () => {
-        navigate(`/binyan/${binyanId}?feature=${2}&resident=${apartmentId}`);
+        navigate(`/binyan/${binyanId}?feature=${2}&resident=${apartmentId}#cashflow`);
     }
     
     if (payments) return (

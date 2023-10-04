@@ -13,6 +13,10 @@ export default function CashFlow ({ apartmentDocs, expDocs, apartments }) {
     useEffect(() => {
         const ftr = searchParams.get('feature');
         if (ftr) setFeature(ftr)
+        const { hash } = window.location;
+        if (hash === '#cashflow') {
+            document.getElementById('cashflow')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }, [searchParams])
 
     const features = [
@@ -27,7 +31,7 @@ export default function CashFlow ({ apartmentDocs, expDocs, apartments }) {
     }
     
     return (
-        <div className={styles.container}>
+        <div id="cashflow" className={styles.container}>
             <select value={feature} className={styles.choose} name="feature" id="lbFI94FPmv94" onChange={handleFeatureChange}>
                 {features.map(feature => (
                     <option key={Math.trunc(Math.random()*10e6)} value={feature[0]}>{feature[1]}</option>

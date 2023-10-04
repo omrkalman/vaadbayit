@@ -19,13 +19,13 @@ export default function({ apartmentDocs, apartments }) {
     const [amountInput, setAmountInput] = useState(0);
     const [reasonInput, setReasonInput] = useState('');
     const dialogRef = useRef();
-    // const [searchParams, setSearchParams] = useSearchParams();
-    // const [resident, setResident] = useState(0);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [resident, setResident] = useState('');
     
-    // useEffect(() => {
-    //     const ftr = searchParams.get('feature');
-    //     if (ftr) setFeature(ftr)
-    // }, [searchParams])
+    useEffect(() => {
+        const rsdnt = searchParams.get('resident');
+        if (rsdnt) setResident(rsdnt)
+    }, [searchParams])
 
 
     useEffect(() => {
@@ -41,7 +41,6 @@ export default function({ apartmentDocs, apartments }) {
     const handleForm = async(e) => {
         e.preventDefault();
         setResult({ status: 'flight' });
-        const residentId = e.target.resident?.value;
         const data = {
             amount: +amountInput,
             memo: reasonInput,
@@ -49,13 +48,14 @@ export default function({ apartmentDocs, apartments }) {
         }
         try {
             if (flowType == 0 /* in */) {
-                const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == residentId)
+                const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == resident)
                 await setDoc(doc(collection(apartmentDoc.ref, 'payments')), data)
             } else {
                 await setDoc(doc(collection(binyanRef, 'expenditures')), data)
             }
             setResult({ text: 'Saved', status: 'ok' })
         } catch (error) {
+            console.error(error);
             setResult({ text: error.message, status: 'error' })
         }
     }
@@ -92,22 +92,22 @@ export default function({ apartmentDocs, apartments }) {
         <>
             <form className={styles.container} onSubmit={handleForm}>
                 <label>Type:</label>
-                <select value={flowType} name="type" onChange={handleFlowTypeChange}>
+                <select value={flowType} onChange={handleFlowTypeChange}>
                     <option value={0}>In</option>
                     <option value={1}>Out</option>
                 </select>
                 <label>Amount</label>
-                <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" name="amount" />
+                <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" />
                 {flowType == 0 && <>
                     <label>Resident:</label>
-                    <select name="resident">
+                    <select value={resident} onChange={e => setSearchParams({ resident: e.target.value })}>
                         {apartments.map(apt => (
                             <option key={Math.trunc(Math.random()*10e6)} value={apt.id}>{apt.nickname}</option>
                         ))}
                     </select>
                 </>}
                 <label>Reason:</label>
-                {!!reasonsSnapshot && <select name="reason" value={reasonInput} onChange={handleReasonChange}>
+                {!!reasonsSnapshot && <select value={reasonInput} onChange={handleReasonChange}>
                     <option disabled value="">Select a reason </option>
                     <option value="~^^NeW^^~">New reason</option>
                     {reasons.map(r => <option key={Math.trunc(Math.random()*10e6)} value={r.text}>{r.text}</option>)}
