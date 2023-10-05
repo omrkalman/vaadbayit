@@ -48,7 +48,7 @@ export default function({ apartmentDocs, apartments }) {
         }
         try {
             if (flowType == 0 /* in */) {
-                const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == resident)
+                const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == e.target.resident.value)
                 await setDoc(doc(collection(apartmentDoc.ref, 'payments')), data)
             } else {
                 await setDoc(doc(collection(binyanRef, 'expenditures')), data)
@@ -100,7 +100,7 @@ export default function({ apartmentDocs, apartments }) {
                 <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" />
                 {flowType == 0 && <>
                     <label>Resident:</label>
-                    <select value={resident} onChange={e => setSearchParams({ resident: e.target.value })}>
+                    <select name="resident" value={resident} onChange={e => setSearchParams({ resident: e.target.value })}>
                         {apartments.map(apt => (
                             <option key={Math.trunc(Math.random()*10e6)} value={apt.id}>{apt.nickname}</option>
                         ))}
