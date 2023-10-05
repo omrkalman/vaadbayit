@@ -48,7 +48,7 @@ export default function({ apartmentDocs, apartments }) {
         }
         try {
             if (flowType == 0 /* in */) {
-                const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == e.target.resident.value)
+                const apartmentDoc = apartmentDocs.find(aDoc => aDoc.id == resident)
                 await setDoc(doc(collection(apartmentDoc.ref, 'payments')), data)
             } else {
                 await setDoc(doc(collection(binyanRef, 'expenditures')), data)
@@ -100,7 +100,8 @@ export default function({ apartmentDocs, apartments }) {
                 <input value={amountInput} onChange={e => setAmountInput(e.target.value)} type="number" />
                 {flowType == 0 && <>
                     <label>Resident:</label>
-                    <select name="resident" value={resident} onChange={e => setSearchParams({ resident: e.target.value })}>
+                    <select value={resident} onChange={e => setSearchParams({ resident: e.target.value })}>
+                        <option disabled value="">Select a resident</option>
                         {apartments.map(apt => (
                             <option key={Math.trunc(Math.random()*10e6)} value={apt.id}>{apt.nickname}</option>
                         ))}
@@ -108,13 +109,13 @@ export default function({ apartmentDocs, apartments }) {
                 </>}
                 <label>Reason:</label>
                 {!!reasonsSnapshot && <select value={reasonInput} onChange={handleReasonChange}>
-                    <option disabled value="">Select a reason </option>
+                    <option disabled value="">Select a reason</option>
                     <option value="~^^NeW^^~">New reason</option>
                     {reasons.map(r => <option key={Math.trunc(Math.random()*10e6)} value={r.text}>{r.text}</option>)}
                 </select>}
                 {!!reasonsLoading && <Loading />}
                 {!!reasonsError && <span className={styles.result+' '+styles.error}>{reasonsError.message}</span>}
-                <button disabled={!(reasonInput && amountInput >= 0.01)}>Save</button>
+                <button disabled={!(reasonInput && resident && amountInput >= 0.01)}>Save</button>
                 {result.status == 'flight' && <Loading />}
                 {!!result.text && <span className={styles.result+' '+styles[result.status]}>{result.text}</span>}
             </form>
