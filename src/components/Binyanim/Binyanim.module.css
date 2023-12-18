@@ -8,7 +8,6 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
 }
 .newBinyan > span {
     font-size: 5em;

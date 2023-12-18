@@ -10,7 +10,7 @@ function Navbar({ user }) {
         <div className={styles.navbarContainer}>
             <nav className={styles.navbar}>
                 {user ? <SignOut /> : <SignIn />}
-                <NavLink to={ROUTES.Binyanim}>Binyanim</NavLink>
+                {user ? <NavLink to={ROUTES.Binyanim}>Binyanim</NavLink> : null}
             </nav>
         </div>
     )

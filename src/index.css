@@ -26,6 +26,8 @@ a:hover {
 body {
   min-height: 100vh;
   margin: 0;
+  background-image: url('background.png');
+  background-repeat: repeat;
 }
 
 h1 {
@@ -55,6 +57,16 @@ button:focus-visible {
 input {
   font-size: 1.5em;
 }
+
+.my-card {
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
+  background-color: #ffffff99;
+  transition: all 0.3s;
+}
+.my-card:hover {
+  background-color: #ffffffdd;
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {

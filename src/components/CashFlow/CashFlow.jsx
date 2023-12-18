@@ -30,7 +30,7 @@ export default function CashFlow ({ apartmentDocs, expDocs, apartments }) {
     }
     
     return (
-        <div id="cashflow" className={styles.container}>
+        <div id="cashflow" className={[styles.container, 'my-card'].join(' ')}>
             <select value={feature} className={styles.choose} name="feature" id="lbFI94FPmv94" onChange={handleFeatureChange}>
                 {features.map(feature => (
                     <option key={Math.trunc(Math.random()*10e6)} value={feature[0]}>{feature[1]}</option>

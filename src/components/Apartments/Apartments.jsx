@@ -30,7 +30,7 @@ function Apartments({ apartments, apartmentsRef }) {
         <>
             <div className={styles.container}>
                 {apartments.map(a => <Apartment key={Math.trunc(Math.random()*10e6)} apartment={a} />)}
-                <div key={Math.trunc(Math.random()*10e6)} className={styles.newApt} onClick={newBinyanHandler}>
+                <div key={Math.trunc(Math.random()*10e6)} className={[styles.newApt, 'my-card'].join(' ')} onClick={newBinyanHandler}>
                     <span>+</span>
                 </div>
             </div>

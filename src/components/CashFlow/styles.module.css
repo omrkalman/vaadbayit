@@ -1,7 +1,6 @@
 .container {
     max-width: calc(90vw); /* to compensate for padding */
     margin: 0 auto;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
     padding: 5vw;
 }
 

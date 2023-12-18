@@ -56,7 +56,7 @@ const Binyanim = () => {
         <h2 style={{ textAlign: 'center' }}>Binyanim</h2>
         <section className={styles.neighborhood}>
           {binyanim.map(b => <Binyan key={Math.trunc(Math.random()*10e6)} binyan={b} />)}
-          <div key={Math.trunc(Math.random()*10e6)} className={styles.newBinyan} onClick={newBinyanHandler}>
+          <div key={Math.trunc(Math.random()*10e6)} className={[styles.newBinyan, 'my-card'].join(' ')} onClick={newBinyanHandler}>
             <span>+</span>
           </div>
         </section>

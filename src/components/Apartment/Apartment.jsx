@@ -7,7 +7,7 @@ function Apartment({ apartment }) {
     const { id } = useParams();
 
     return (
-        <div className={styles.apt} onClick={() => navigate(`/binyan/${id}/apartment/${apartment.id}`)}>
+        <div className={[styles.apt, 'my-card'].join(' ')} onClick={() => navigate(`/binyan/${id}/apartment/${apartment.id}`)}>
             <h2 className={styles.nickname}>{apartment.nickname}</h2>
             <div className={styles.door}>
                 <span className={styles.aptNum}>{apartment.number}</span>

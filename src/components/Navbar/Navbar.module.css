@@ -10,3 +10,10 @@
     padding: 0.5rem;
     z-index: 1000;
 }
+
+.navbar > * {
+    margin-inline-end: 1em;
+}
+.navbar > *:last-child {
+    margin-inline-end: 0;
+}

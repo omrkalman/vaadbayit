@@ -33,7 +33,7 @@ export default function Payments ({ apartmentRef }) {
         <div className={styles.container}>
             <div key='add' onClick={handleNewPayment} className={`${styles.payment} ${styles.plus}`}>+</div>
             {payments.map(p => (
-                <div key={p.id} className={styles.payment}>
+                <div key={p.id} className={[styles.payment, 'my-card'].join(' ')}>
                     <p className={styles.date}>{p.date}</p>
                     <h1 className={styles.amount}>{formatMoney(p.amount)}</h1>
                     <h3 className={styles.memo}>"{p.memo}"</h3>
