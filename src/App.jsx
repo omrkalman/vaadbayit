@@ -1,18 +1,26 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { auth } from './config/firebaseConfig';
 import Navbar from "./components/Navbar/Navbar";
-import HomePage from './components/HomePage/HomePage';
+import ROUTES from './config/routes';
+import { useEffect } from 'react';
 
 function App() {
-  // return <span>App works</span>
-  
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
   
+  useEffect(() => {
+    if (user) {
+      navigate(ROUTES.Binyanim)
+    } else {
+      navigate(ROUTES.HomePage)
+    }
+  }, [user])
+
   return (
     <>
       <Navbar user={user} />
-      {user ? <Outlet /> : <HomePage />}
+      <Outlet />
     </>
   );
 }

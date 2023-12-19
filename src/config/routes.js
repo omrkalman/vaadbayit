@@ -1,4 +1,5 @@
 const ROUTES = {
+    HomePage: '/',
     Binyanim: '/binyanim',
     BinyanPage: '/binyan/:id',
     ApartmentPage: '/binyan/:binyanId/apartment/:apartmentId',

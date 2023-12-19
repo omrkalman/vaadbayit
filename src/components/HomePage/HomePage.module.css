@@ -22,6 +22,8 @@
     padding: 0.5rem;
     margin: 1rem;
     display: grid;
+    max-height: 50vh;
+    overflow-y: hidden;
 }
 .feature:nth-child(2n-1) {
     grid-template-columns: 1fr 2fr;
@@ -33,6 +35,16 @@
 @media screen and (max-width: 500px) {
     .feature {
         grid-template-columns: 1fr !important;
+        max-height: none;
+    }
+
+    .feature .title h1 {
+        text-align: center !important;
+        font-size: 1.5rem;
+    }
+
+    .feature:nth-child(2n-1) > *:first-child {
+        order: 1;
     }
 }
 
@@ -86,5 +98,4 @@
 
 .bulletPoints {
     font-size: larger;
-    font-weight: bolder;
 }
