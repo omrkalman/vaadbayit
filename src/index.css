@@ -16,17 +16,18 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: blue;
   text-decoration: inherit;
+  transition: text-shadow 0.3s;
 }
 a:hover {
-  color: #535bf2;
+  text-shadow: 0 0 5px white;
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background-image: url('/background.png');
+  background-image: url('/background_4dark.png');
   background-repeat: repeat;
 }
 
@@ -60,11 +61,11 @@ input {
 
 .my-card {
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 1);
-  background-color: #ffffff99;
+  background-color: #00000044;
   transition: all 0.3s;
 }
 .my-card:hover {
-  background-color: #ffffffdd;
+  background-color: #00000088;
 }
 
 .large-button {
@@ -77,10 +78,17 @@ input {
     color: #213547;
     --background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
   button {
     background-color: #f9f9f9;
+  }
+  .my-card {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+    background-color: #ffffff99;
+  }
+  .my-card:hover {
+    background-color: #ffffffdd;
+  }
+  body {
+    background-image: url('/background_4light.png');
   }
 }
