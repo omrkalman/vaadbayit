@@ -1,0 +1,90 @@
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.feature{
+    padding: 0.5rem;
+    margin: 1rem;
+    display: grid;
+}
+.feature:nth-child(2n-1) {
+    grid-template-columns: 1fr 2fr;
+}
+.feature:nth-child(2n) {
+    grid-template-columns: 2fr 1fr;
+}
+
+@media screen and (max-width: 500px) {
+    .feature {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+.slider {
+    animation-duration: 1.5s;
+    transform: translateX(-100%);
+    animation-fill-mode: forwards;
+}
+.slider:nth-child(2n-1) {
+    animation-name: slideInFromLeft;
+}
+.slider:nth-child(2n) {
+    animation-name: slideInFromRight;
+}
+
+.title {
+    padding: 1rem;
+}
+.title h1 {
+    /* width: min-content; */
+    /* text-align: center; */
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 0 0 5px white, 0 0 10px gold;
+    margin: 0;
+}
+
+.feature:nth-child(2n-1) .title h1 {
+    text-align: right;
+}
+
+
+.apartments {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.balanceContainer {
+    position: relative;
+}
+.balanceContainer > h5 {
+    margin: 0;
+    position: absolute;
+    transform: translateY(-100%);
+    width: 100%;
+    text-align: center;
+}
+
+.flowExample {
+    margin: 0 0 0.5rem 0.5rem;
+}
+
+.bulletPoints {
+    font-size: larger;
+    font-weight: bolder;
+}

@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import Loading from "../Loading/Loading";
 import useMoney from "../../hooks/useMoney";
 
-export default function({ apartmentDocs, expDocs }) {
+export default function({ apartmentDocs, expDocs, isDisplayOnly }) {
     const [paymentSum, setPaymentSum] = useState(-1);
     const [expenditureSum, setExpenditureSum] = useState(-1);
 
@@ -28,6 +28,11 @@ export default function({ apartmentDocs, expDocs }) {
     }, [expDocs])
 
     const money = useMoney(paymentSum - expenditureSum);
+    const fakeMoney = useMoney(562);
+
+    if (isDisplayOnly) {
+        return <h1 className={styles.balance}>{fakeMoney}</h1>
+    }
 
     if (paymentSum==-1 || expenditureSum==-1) {
         return <h1 className={styles.balance}><Loading /></h1>
